@@ -6,7 +6,37 @@
         xmlns:local="clr-namespace:TrafficQuery"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+    <StackPanel Orientation="Vertical">
+        <TextBlock Text="Traffic Query"></TextBlock>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="Origin"></Label>
+                <TextBox x:Name="OriginTextBox" Text="{Binding Path=Origin,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"></TextBox>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Content="Destination:"></Label>
+                <TextBox x:Name="DestinationTextBox" Text="{Binding Path=Destination,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"></TextBox>
+            </Grid>
+
+        </Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Click="Query_Click" Content="Query"></Button>
+        </StackPanel>
+
+        <ListView x:Name="ResultListView"></ListView>
+    </StackPanel>
 </Window>

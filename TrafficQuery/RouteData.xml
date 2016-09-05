@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Routes>
+
+  <Line ID="0" Name="一号线">
+    <Station Name="广州东站"></Station>
+    <Station Name="体育中心"></Station>
+    <Station Name="体育西路"></Station>
+    <Station Name="杨箕"></Station>
+    <Station Name="东山口"></Station>
+    <Station Name="烈士陵园"></Station>
+    <Station Name="农讲所"></Station>
+    <Station Name="公元前"></Station>
+    <Station Name="西门口"></Station>
+    <Station Name="陈家祠"></Station>
+    <Station Name="长寿路"></Station>
+    <Station Name="黄沙"></Station>
+    <Station Name="芳村"></Station>
+    <Station Name="花地湾"></Station>
+    <Station Name="坑口"></Station>
+    <Station Name="西朗"></Station>
+  </Line>
+
+  <Line ID="1" Name ="二号线">
+    <Station Name="嘉禾望岗"></Station>
+    <Station Name="黄边"></Station>
+    <Station Name="江夏"></Station>
+    <Station Name="萧岗"></Station>
+    <Station Name="白云文化广场"></Station>
+    <Station Name="白云公园"></Station>
+    <Station Name="飞翔公园"></Station>
+    <Station Name="三元里"></Station>
+    <Station Name="广州火车站"></Station>
+    <Station Name="越秀公园"></Station>
+    <Station Name="纪念堂"></Station>
+    <Station Name="公元前" LinkLine="0"></Station>
+    <Station Name="海珠广场"></Station>
+    <Station Name="市二宫"></Station>
+    <Station Name="江南西"></Station>
+    <Station Name="昌岗"></Station>
+    <Station Name="江泰路"></Station>
+    <Station Name="东晓南"></Station>
+    <Station Name="南洲"></Station>
+    <Station Name="洛溪"></Station>
+    <Station Name="南浦"></Station>
+    <Station Name="会江"></Station>
+    <Station Name="石壁"></Station>
+    <Station Name="广州南站"></Station>
+  </Line>
+</Routes>
