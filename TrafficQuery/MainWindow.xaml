@@ -37,6 +37,16 @@
             <Button Click="Query_Click" Content="Query"></Button>
         </StackPanel>
 
-        <ListView x:Name="ResultListView"></ListView>
+        <ListView x:Name="ResultListView">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Path=Start.Name}"></TextBlock>
+                        <TextBlock Text="{Binding Path=End.Name}"></TextBlock>
+                        <TextBlock Text="{Binding Path=LineNumber}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackPanel>
 </Window>

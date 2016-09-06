@@ -11,9 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TrafficQuery.Models;
 using System.Xml.Linq;
+using System.Collections.ObjectModel;
 
 namespace TrafficQuery
 {
@@ -25,6 +25,7 @@ namespace TrafficQuery
         public static string DataFileName = "RouteData.xml";
         public const uint INF = uint.MaxValue;
         private List<Node> nodes;
+        private List<Line> lines;
 
         public int Length
         {
@@ -41,19 +42,22 @@ namespace TrafficQuery
 
         private List<Node> LoadXmlData()
         {
-
-            uint counter = 0;
+            uint counter = 0, lineCounter = 0;
             var nodes = new List<Node>();
+            this.lines = new List<Line>();
             XElement root = XElement.Load("RouteData.xml");
             var lines =
                 from el in root.Elements("Line") select el;
-            foreach(XElement line in lines)
+            foreach(XElement lineElm in lines)
             {
                 Node prev = null;
+                Line line = new Line();
                 var stations =
-                    from el in line.Elements("Station") select el;
+                    from el in lineElm.Elements("Station") select el;
 
-                var lid = Convert.ToUInt32(line.Attribute("ID").Value);
+                // var lid = Convert.ToUInt32(line.Attribute("ID").Value);
+                uint lid = lineCounter++;
+                line.UID = lid;
 
                 foreach(XElement station in stations)
                 {
@@ -71,6 +75,7 @@ namespace TrafficQuery
                         node = new Node();
                         node.UID = counter++;
                         node.Name = name;
+                        nodes.Add(node);
                     }
                     node.LineIDs.Add(lid);
 
@@ -84,9 +89,10 @@ namespace TrafficQuery
                         arc.NodeID = node.UID;
                         prev.Arcs.AddLast(arc);
                     }
-                    nodes.Add(node);
                     prev = node;
                 }
+
+                this.lines.Add(line);
             }
 
             return nodes;
@@ -94,15 +100,125 @@ namespace TrafficQuery
 
         private void Query_Click(object sender, RoutedEventArgs e)
         {
-            string origin = OriginTextBox.Text;
-            string destination = DestinationTextBox.Text;
+            string originName = OriginTextBox.Text;
+            string destinationName = DestinationTextBox.Text;
+
+            Node origin = nodes.Single(n => n.Name == originName);
+            Node destination = nodes.Single(n => n.Name == destinationName);
+
+            var stationList = FindClosestPath(origin.UID, destination.UID);
+            var line = nodes[(int)stationList.First.Value].LineIDs;
+
+            var jounaryList = new ObservableCollection<Jounary>();
+            var list = stationList.Reverse().ToList();
+            var j = new Jounary();
+            // j.Start = nodes[(int)stationList.First.Value];
+            j.Start = nodes[(int)list[0]];
+            j.LineNumber = j.Start.LineIDs[0];
+
+
+            for (int i = 0; i < list.Count; ++i)
+            {
+                var node = nodes[(int)list[i]];
+
+                if (i < list.Count - 1 && !nodes[(int)list[i+1]].LineIDs.Contains(j.LineNumber))
+                {
+                    // j.End = nodes[(int)list[i-1]];
+                    j.End = node;
+
+                    jounaryList.Add(j);
+
+                    j = new Jounary();
+                    // j.Start = nodes[(int)list[i-1]];
+                    j.Start = node;
+                    j.LineNumber = nodes[(int)list[i + 1]].LineIDs[0];
+                    // j.LineNumber = nodes[(int)list[i-1]].LineIDs[0];
+                }
+                else if (i == list.Count - 1)
+                {
+                    j.End = node;
+                    jounaryList.Add(j);
+                }
+            }
+
+            /*
+            for (var i = stationList.First; (i = i.Next) != null;)
+            {
+                if (!nodes[(int)i.Value].LineIDs.Contains(j.LineNumber))
+                {
+                    j.End = nodes[(int)i.Previous.Value];
+
+                    jounaryList.Add(j);
+
+                    j = new Jounary();
+                    j.Start = nodes[(int)i.Previous.Value];
+                    j.LineNumber = nodes[(int)i.Previous.Value].LineIDs[0];
+                }
+                else if (i.Next == null)
+                {
+                    j.End = nodes[(int)i.Previous.Value];
+                    jounaryList.Add(j);
+                }
+            }
+            */
+
+            ResultListView.ItemsSource = jounaryList;
         }
 
-        private uint FindClosestPath(uint originID, uint destinationID)
+        private LinkedList<uint> FindClosestPath(uint originID, uint destinationID)
         {
-            uint[] dis = new uint[Length];
-            for (int i = 0; i < Length; ++i) dis[i] = INF;
-            return 1;
+            var len = nodes.Count;
+            var distance = new uint[len];
+            var path = new uint[len];
+            var book = new bool[len];
+            for (int i = 0; i < len; ++i)
+            {
+                distance[i] = INF;
+                book[i] = false;
+            }
+
+            distance[originID] = 0;
+            book[originID] = true;
+
+            int pointer = (int)originID;
+
+            for (int i=0; i < len - 1; ++i)
+            {
+                uint min = INF;
+
+                for (int j = 0; j < len; ++j)
+                {
+                    if (book[j] == false && distance[j] < min)
+                    {
+                        min = distance[j];
+                        pointer = j;
+                    }
+                }
+                book[pointer] = true;
+
+                foreach(Arc arc in nodes[pointer].Arcs)
+                {
+                    if (distance[pointer] + arc.Weight < distance[arc.NodeID])
+                    {
+                        distance[arc.NodeID] = distance[pointer] + arc.Weight;
+                        path[arc.NodeID] = (uint) pointer;
+                    }
+                }
+
+            }
+
+            var result = new LinkedList<uint>();
+            uint p = destinationID;
+
+            while (p != originID)
+            {
+                result.AddLast(p);
+                p = path[p];
+            }
+            result.AddLast(originID);
+
+            return result;
         }
+
     }
 }

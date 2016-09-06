@@ -9,7 +9,7 @@
     <Station Name="东山口"></Station>
     <Station Name="烈士陵园"></Station>
     <Station Name="农讲所"></Station>
-    <Station Name="公元前"></Station>
+    <Station Name="公园前"></Station>
     <Station Name="西门口"></Station>
     <Station Name="陈家祠"></Station>
     <Station Name="长寿路"></Station>
@@ -32,7 +32,7 @@
     <Station Name="广州火车站"></Station>
     <Station Name="越秀公园"></Station>
     <Station Name="纪念堂"></Station>
-    <Station Name="公元前" LinkLine="0"></Station>
+    <Station Name="公园前" LinkLine="0"></Station>
     <Station Name="海珠广场"></Station>
     <Station Name="市二宫"></Station>
     <Station Name="江南西"></Station>

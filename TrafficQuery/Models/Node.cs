@@ -13,6 +13,17 @@ namespace TrafficQuery.Models
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private uint[] distance;
+        public uint[] Distance
+        {
+            get { return distance; }
+            set
+            {
+                distance = value;
+                NotifyPropertyChanged();
+            }
+        } 
+
         private uint uid;
         public uint UID
         {
@@ -57,16 +68,10 @@ namespace TrafficQuery.Models
             }
         }
 
-        private Dictionary<uint, uint> distanceMap = new Dictionary<uint, uint>();
-        public Dictionary<uint, uint> DistanceMap
-        {
-            get { return distanceMap; }
-            set { distanceMap = value; }
-        }
-
         private void NotifyPropertyChanged([CallerMemberName]string propName="")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
     }
+
 }
