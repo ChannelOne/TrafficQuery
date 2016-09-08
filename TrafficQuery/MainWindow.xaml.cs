@@ -52,6 +52,7 @@ namespace TrafficQuery
             {
                 Node prev = null;
                 Line line = new Line();
+                line.Name = lineElm.Attribute("Name").Value;
                 var stations =
                     from el in lineElm.Elements("Station") select el;
 
@@ -112,16 +113,15 @@ namespace TrafficQuery
             var jounaryList = new ObservableCollection<Jounary>();
             var list = stationList.Reverse().ToList();
             var j = new Jounary();
-            // j.Start = nodes[(int)stationList.First.Value];
             j.Start = nodes[(int)list[0]];
-            j.LineNumber = j.Start.LineIDs[0];
+            j.Line = lines[(int)j.Start.LineIDs[0]];
 
 
             for (int i = 0; i < list.Count; ++i)
             {
                 var node = nodes[(int)list[i]];
 
-                if (i < list.Count - 1 && !nodes[(int)list[i+1]].LineIDs.Contains(j.LineNumber))
+                if (i < list.Count - 1 && !nodes[(int)list[i+1]].LineIDs.Contains(j.Line.UID))
                 {
                     // j.End = nodes[(int)list[i-1]];
                     j.End = node;
@@ -131,7 +131,8 @@ namespace TrafficQuery
                     j = new Jounary();
                     // j.Start = nodes[(int)list[i-1]];
                     j.Start = node;
-                    j.LineNumber = nodes[(int)list[i + 1]].LineIDs[0];
+                    j.Line = lines[(int)nodes[(int)list[i + 1]].LineIDs[0]];
+                    // j.LineNumber = nodes[(int)list[i + 1]].LineIDs[0];
                     // j.LineNumber = nodes[(int)list[i-1]].LineIDs[0];
                 }
                 else if (i == list.Count - 1)

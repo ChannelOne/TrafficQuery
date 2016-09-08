@@ -10,6 +10,7 @@ namespace TrafficQuery.Models
 {
     class Jounary : INotifyPropertyChanged
     {
+        public static uint MinutesPreNode = 5;
         public event PropertyChangedEventHandler PropertyChanged;
 
         private Node start;
@@ -34,6 +35,35 @@ namespace TrafficQuery.Models
             }
         }
 
+        private uint nodesCount = 0;
+        public uint NodesCount
+        {
+            get { return nodesCount; }
+            set
+            {
+                nodesCount = value;
+                NotifyPropertyChanged("NodesCount");
+                NotifyPropertyChanged("Time");
+            }
+        }
+
+        public uint Time
+        {
+            get { return nodesCount * MinutesPreNode; }
+        }
+
+        private Line line;
+        public Line Line
+        {
+            get { return line; }
+            set
+            {
+                line = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /*
         private uint lineNumber;
         public uint LineNumber
         {
@@ -44,6 +74,7 @@ namespace TrafficQuery.Models
                 NotifyPropertyChanged();
             }
         }
+        */
 
         private void NotifyPropertyChanged([CallerMemberName]string propName="")
         {

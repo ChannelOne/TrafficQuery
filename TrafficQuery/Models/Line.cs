@@ -36,7 +36,7 @@ namespace TrafficQuery.Models
 
         private void NotifyPropertyChanged([CallerMemberName]string propName = "")
         {
-
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
     }

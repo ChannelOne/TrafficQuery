@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Routes>
 
-  <Line ID="0" Name="一号线">
+  <Line Name="一号线">
     <Station Name="广州东站"></Station>
     <Station Name="体育中心"></Station>
     <Station Name="体育西路"></Station>
@@ -20,7 +20,7 @@
     <Station Name="西朗"></Station>
   </Line>
 
-  <Line ID="1" Name ="二号线">
+  <Line Name ="二号线">
     <Station Name="嘉禾望岗"></Station>
     <Station Name="黄边"></Station>
     <Station Name="江夏"></Station>
@@ -46,4 +46,40 @@
     <Station Name="石壁"></Station>
     <Station Name="广州南站"></Station>
   </Line>
+
+  <Line Name="三号线">
+    <Station Name="番禺广场"></Station>
+    <Station Name="市侨"></Station>
+    <Station Name="汉溪长隆"></Station>
+    <Station Name="大石"></Station>
+    <Station Name="夏滘"></Station>
+    <Station Name="沥滘"></Station>
+    <Station Name="大塘"></Station>
+    <Station Name="客村"></Station>
+    <Station Name="广州塔"></Station>
+    <Station Name="珠江新城"></Station>
+    <Station Name="广州塔"></Station>
+    <Station Name="体育西路" LinkLine="0"></Station>
+    <Station Name="石牌桥"></Station>
+    <Station Name="岗顶"></Station>
+    <Station Name="华师"></Station>
+    <Station Name="五山"></Station>
+    <Station Name="天河客运站"></Station>
+  </Line>
+
+  <Line Name="三号线（北延段）">
+    <Station Name="体育西路" LinkLine="2"></Station>
+    <Station Name="林和西"></Station>
+    <Station Name="燕塘"></Station>
+    <Station Name="梅花园"></Station>
+    <Station Name="京溪南方医院"></Station>
+    <Station Name="同和"></Station>
+    <Station Name="永泰"></Station>
+    <Station Name="白云大道北"></Station>
+    <Station Name="嘉禾望岗" LinkLine="1"></Station>
+    <Station Name="龙归"></Station>
+    <Station Name="仁和"></Station>
+    <Station Name="机场南"></Station>
+  </Line>
+
 </Routes>

@@ -5,21 +5,59 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TrafficQuery"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <StackPanel Orientation="Vertical">
-        <TextBlock Text="Traffic Query"></TextBlock>
-        <Grid>
+        Title="Traffic Query" Height="350" Width="525">
+    <Window.Resources>
+        <Style x:Key="headerTextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="28"></Setter>
+            <Setter Property="Margin" Value="0,0,0,10"></Setter>
+        </Style>
+
+        <Style x:Key="tagLabelStyle" TargetType="{x:Type Label}">
+            <Setter Property="FontSize" Value="18"></Setter>
+        </Style>
+
+        <Style x:Key="inputStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="FontSize" Value="18"></Setter>
+        </Style>
+
+        <Style x:Key="queryBtnStyle" TargetType="{x:Type Button}">
+            <Setter Property="FontSize" Value="18"></Setter>
+        </Style>
+
+        <Style x:Key="stationNameStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+
+        <Style x:Key="lineNameStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="22"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Style="{StaticResource headerTextBlockStyle}" Text="Traffic Query"></TextBlock>
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="Origin"></Label>
-                <TextBox x:Name="OriginTextBox" Text="{Binding Path=Origin,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"></TextBox>
+                <Label Style="{StaticResource tagLabelStyle}" Grid.Column="0" 
+                       Content="Origin:"></Label>
+                <TextBox x:Name="OriginTextBox" Style="{StaticResource inputStyle}" 
+                         Text="{Binding Path=Origin,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"></TextBox>
             </Grid>
 
             <Grid Grid.Column="1">
@@ -28,25 +66,33 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Content="Destination:"></Label>
-                <TextBox x:Name="DestinationTextBox" Text="{Binding Path=Destination,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"></TextBox>
+                <Label Style="{StaticResource tagLabelStyle}" Grid.Column="0" 
+                       Content="Destination:"></Label>
+                <TextBox x:Name="DestinationTextBox" Style="{StaticResource inputStyle}" 
+                         Text="{Binding Path=Destination,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"></TextBox>
             </Grid>
 
-        </Grid>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Click="Query_Click" Content="Query"></Button>
-        </StackPanel>
+            <Button Grid.Column="2" Style="{StaticResource queryBtnStyle}" Click="Query_Click" Content="Query">
+            </Button>
 
-        <ListView x:Name="ResultListView">
+        </Grid>
+
+        <ListView x:Name="ResultListView" BorderBrush="{x:Null}"
+                  HorizontalContentAlignment="Stretch" Grid.Row="2" >
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{Binding Path=Start.Name}"></TextBlock>
-                        <TextBlock Text="{Binding Path=End.Name}"></TextBlock>
-                        <TextBlock Text="{Binding Path=LineNumber}"></TextBlock>
-                    </StackPanel>
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Left">
+                            <TextBlock Style="{StaticResource stationNameStyle}" Text="{Binding Path=Start.Name}"></TextBlock>
+                            <TextBlock Style="{StaticResource stationNameStyle}" Text="{Binding Path=End.Name}"></TextBlock>
+                        </StackPanel>
+
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding Path=Time}"></TextBlock>
+
+                        <TextBlock Style="{StaticResource lineNameStyle}" Text="{Binding Path=Line.Name}"></TextBlock>
+                    </DockPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </StackPanel>
+    </Grid>
 </Window>
