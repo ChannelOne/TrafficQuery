@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TrafficQuery"
         mc:Ignorable="d"
-        Title="Traffic Query" Height="350" Width="525">
+        Title="广州地铁查询" Height="350" Width="525">
     <Window.Resources>
         <Style x:Key="headerTextBlockStyle" TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="28"></Setter>
@@ -52,6 +52,7 @@
         </Style>
 
         <local:ColorBrushConverter x:Key="ColorBrushConverter"></local:ColorBrushConverter>
+        <local:TimeFormator x:Key="TimeFormat"></local:TimeFormator>
 
     </Window.Resources>
 
@@ -64,7 +65,8 @@
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Style="{StaticResource headerTextBlockStyle}" Text="Traffic Query"></TextBlock>
+        <TextBlock Grid.Row="0" Style="{StaticResource headerTextBlockStyle}" 
+                   Text="广州地铁查询"></TextBlock>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -77,7 +79,7 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Label Style="{StaticResource tagLabelStyle}" Grid.Column="0" 
-                       Content="Origin:"></Label>
+                       Content="起点:"></Label>
                 <TextBox x:Name="OriginTextBox" Style="{StaticResource inputStyle}" 
                          Text="{Binding Path=Origin,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"></TextBox>
             </Grid>
@@ -89,12 +91,13 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Style="{StaticResource tagLabelStyle}" Grid.Column="0" 
-                       Content="Destination:"></Label>
+                       Content="目的地:"></Label>
                 <TextBox x:Name="DestinationTextBox" Style="{StaticResource inputStyle}" 
                          Text="{Binding Path=Destination,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"></TextBox>
             </Grid>
 
-            <Button Grid.Column="2" Style="{StaticResource queryBtnStyle}" Click="Query_Click" Content="Query">
+            <Button Grid.Column="2" Style="{StaticResource queryBtnStyle}" 
+                    Click="Query_Click" Content="查询">
             </Button>
 
         </Grid>
@@ -109,7 +112,7 @@
                         <TextBlock DockPanel.Dock="Right">
                             <Run Text="{Binding Path=Time,Mode=OneWay}"
                                  Style="{StaticResource stationTimeStyle}"></Run>
-                            <Run Text="Minutes"
+                            <Run Text="分钟"
                                  Style="{StaticResource stationTimeUnitStyle}"></Run>
                         </TextBlock>
 
@@ -129,11 +132,10 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="3">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="3">
             <TextBlock Style="{StaticResource totalTimeStyle}">
-                <Run Text="Total: "></Run>
+                <Run Text="大约"></Run>
                 <Run x:Name="TotalNameTextBlock"></Run>
-                <Run Text="Minutes"></Run>
             </TextBlock>
         </StackPanel>
     </Grid>

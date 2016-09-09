@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using TrafficQuery.Models;
 using System.Xml.Linq;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace TrafficQuery
 {
@@ -138,6 +139,7 @@ namespace TrafficQuery
             j.Start = list[0];
             j.Line = lines[(int)GuessLineNumber(list, 0)];
 
+            int beginI = 0;
             for (int i = 0; i < list.Count; ++i)
             {
                 var node = list[i];
@@ -145,12 +147,13 @@ namespace TrafficQuery
                 if (i < list.Count - 1)
                 {
                     var nextNode = list[i + 1];
-                    j.NodesCount++;
 
                     if (!nextNode.LineIDs.Contains(j.Line.UID))
                     {
                         j.End = node;
+                        j.NodesCount = Math.Abs(i - beginI);
                         jounaryList.Add(j);
+                        beginI = i;
 
                         j = new Jounary();
                         j.Start = node;
@@ -161,18 +164,20 @@ namespace TrafficQuery
                 else if (i == list.Count - 1)
                 {
                     j.End = node;
+                    j.NodesCount = Math.Abs(i - beginI);
                     jounaryList.Add(j);
                 }
             }
 
             ResultListView.ItemsSource = jounaryList;
-            uint totalTime = 0;
+            int totalTime = 0;
             foreach(Jounary it in jounaryList)
             {
                 totalTime += it.Time;
             }
+            totalTime += (jounaryList.Count - 1) * Jounary.JounaryChangeTime;
 
-            TotalNameTextBlock.Text = totalTime.ToString();
+            TotalNameTextBlock.Text = (string)new TimeFormator().Convert(totalTime, typeof(string), null, CultureInfo.CurrentCulture);
         }
 
         private LinkedList<uint> FindClosestPath(uint originID, uint destinationID)

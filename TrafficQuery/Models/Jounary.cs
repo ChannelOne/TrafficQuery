@@ -10,7 +10,8 @@ namespace TrafficQuery.Models
 {
     class Jounary : INotifyPropertyChanged
     {
-        public static uint MinutesPreNode = 3;
+        public static int MinutesPreNode = 3;
+        public static int JounaryChangeTime = 3;
         public event PropertyChangedEventHandler PropertyChanged;
 
         private Node start;
@@ -35,8 +36,8 @@ namespace TrafficQuery.Models
             }
         }
 
-        private uint nodesCount = 0;
-        public uint NodesCount
+        private int nodesCount = 0;
+        public int NodesCount
         {
             get { return nodesCount; }
             set
@@ -47,7 +48,7 @@ namespace TrafficQuery.Models
             }
         }
 
-        public uint Time
+        public int Time
         {
             get { return nodesCount * MinutesPreNode; }
         }
