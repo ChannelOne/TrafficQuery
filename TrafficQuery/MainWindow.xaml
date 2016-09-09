@@ -25,13 +25,34 @@
         </Style>
 
         <Style x:Key="stationNameStyle" TargetType="{x:Type TextBlock}">
-            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="FontSize" Value="22"></Setter>
         </Style>
 
         <Style x:Key="lineNameStyle" TargetType="{x:Type TextBlock}">
-            <Setter Property="FontSize" Value="22"></Setter>
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Height" Value="14"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="Margin" Value="8,0,0,0"></Setter>
+            <Setter Property="Background" Value="BlueViolet"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Padding" Value="5,0,5,0"></Setter>
+        </Style>
+
+        <Style x:Key="stationTimeStyle" TargetType="{x:Type Run}">
+            <Setter Property="FontSize" Value="18"></Setter>
             <Setter Property="FontWeight" Value="Bold"></Setter>
         </Style>
+
+        <Style x:Key="stationTimeUnitStyle" TargetType="{x:Type Run}">
+            <Setter Property="FontSize" Value="12"></Setter>
+        </Style>
+
+        <Style x:Key="totalTimeStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="18"></Setter>
+        </Style>
+
+        <local:ColorBrushConverter x:Key="ColorBrushConverter"></local:ColorBrushConverter>
+
     </Window.Resources>
 
     <Grid>
@@ -40,6 +61,7 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Style="{StaticResource headerTextBlockStyle}" Text="Traffic Query"></TextBlock>
@@ -77,22 +99,42 @@
 
         </Grid>
 
-        <ListView x:Name="ResultListView" BorderBrush="{x:Null}"
-                  HorizontalContentAlignment="Stretch" Grid.Row="2" >
+        <ListView x:Name="ResultListView" BorderBrush="{x:Null}" 
+                  Margin="0,10,0,0" HorizontalContentAlignment="Stretch" 
+                  Grid.Row="2" >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
-                        <StackPanel DockPanel.Dock="Left">
-                            <TextBlock Style="{StaticResource stationNameStyle}" Text="{Binding Path=Start.Name}"></TextBlock>
-                            <TextBlock Style="{StaticResource stationNameStyle}" Text="{Binding Path=End.Name}"></TextBlock>
+
+                        <TextBlock DockPanel.Dock="Right">
+                            <Run Text="{Binding Path=Time,Mode=OneWay}"
+                                 Style="{StaticResource stationTimeStyle}"></Run>
+                            <Run Text="Minutes"
+                                 Style="{StaticResource stationTimeUnitStyle}"></Run>
+                        </TextBlock>
+
+                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                            <TextBlock Style="{StaticResource stationNameStyle}">
+                                <Run Text="{Binding Path=Start.Name, Mode=OneWay}"></Run>
+                                <Run FontSize="20" Text=" → "></Run>
+                                <Run Text="{Binding Path=End.Name,Mode=OneWay}"></Run>
+                            </TextBlock>
+
+                            <TextBlock Style="{StaticResource lineNameStyle}" Background="{Binding Path=Line.Color,Converter={StaticResource ColorBrushConverter}}" 
+                                       Text="{Binding Path=Line.Name}"></TextBlock>
                         </StackPanel>
 
-                        <TextBlock DockPanel.Dock="Right" Text="{Binding Path=Time}"></TextBlock>
-
-                        <TextBlock Style="{StaticResource lineNameStyle}" Text="{Binding Path=Line.Name}"></TextBlock>
                     </DockPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3">
+            <TextBlock Style="{StaticResource totalTimeStyle}">
+                <Run Text="Total: "></Run>
+                <Run x:Name="TotalNameTextBlock"></Run>
+                <Run Text="Minutes"></Run>
+            </TextBlock>
+        </StackPanel>
     </Grid>
 </Window>

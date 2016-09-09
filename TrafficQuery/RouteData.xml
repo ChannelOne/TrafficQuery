@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Routes>
 
-  <Line Name="一号线">
+  <Line Name="一号线" Color="#FED73C">
     <Station Name="广州东站"></Station>
     <Station Name="体育中心"></Station>
     <Station Name="体育西路"></Station>
@@ -20,7 +20,7 @@
     <Station Name="西朗"></Station>
   </Line>
 
-  <Line Name ="二号线">
+  <Line Name ="二号线" Color="#0671A7">
     <Station Name="嘉禾望岗"></Station>
     <Station Name="黄边"></Station>
     <Station Name="江夏"></Station>
@@ -32,7 +32,7 @@
     <Station Name="广州火车站"></Station>
     <Station Name="越秀公园"></Station>
     <Station Name="纪念堂"></Station>
-    <Station Name="公园前" LinkLine="0"></Station>
+    <Station Name="公园前" LinkLineName="一号线"></Station>
     <Station Name="海珠广场"></Station>
     <Station Name="市二宫"></Station>
     <Station Name="江南西"></Station>
@@ -47,7 +47,7 @@
     <Station Name="广州南站"></Station>
   </Line>
 
-  <Line Name="三号线">
+  <Line Name="三号线" Color="#FF9742">
     <Station Name="番禺广场"></Station>
     <Station Name="市侨"></Station>
     <Station Name="汉溪长隆"></Station>
@@ -58,8 +58,7 @@
     <Station Name="客村"></Station>
     <Station Name="广州塔"></Station>
     <Station Name="珠江新城"></Station>
-    <Station Name="广州塔"></Station>
-    <Station Name="体育西路" LinkLine="0"></Station>
+    <Station Name="体育西路" LinkLineName="一号线"></Station>
     <Station Name="石牌桥"></Station>
     <Station Name="岗顶"></Station>
     <Station Name="华师"></Station>
@@ -67,8 +66,8 @@
     <Station Name="天河客运站"></Station>
   </Line>
 
-  <Line Name="三号线（北延段）">
-    <Station Name="体育西路" LinkLine="2"></Station>
+  <Line Name="三号线（北延段）" Color="#FF9742">
+    <Station Name="体育西路" LinkLineName="三号线"></Station>
     <Station Name="林和西"></Station>
     <Station Name="燕塘"></Station>
     <Station Name="梅花园"></Station>
@@ -76,10 +75,80 @@
     <Station Name="同和"></Station>
     <Station Name="永泰"></Station>
     <Station Name="白云大道北"></Station>
-    <Station Name="嘉禾望岗" LinkLine="1"></Station>
+    <Station Name="嘉禾望岗" LinkLineName="二号线"></Station>
     <Station Name="龙归"></Station>
     <Station Name="仁和"></Station>
     <Station Name="机场南"></Station>
+  </Line>
+
+  <Line Name="四号线" Color="#068A51">
+    <Station Name="黄村"></Station>
+    <Station Name="车陂"></Station>
+    <Station Name="车陂南"></Station>
+    <Station Name="万胜围"></Station>
+    <Station Name="官洲"></Station>
+    <Station Name="大学城北"></Station>
+    <Station Name="大学城南"></Station>
+    <Station Name="新造"></Station>
+    <Station Name="石碁"></Station>
+    <Station Name="海傍"></Station>
+    <Station Name="新造"></Station>
+    <Station Name="低涌"></Station>
+    <Station Name="东涌"></Station>
+    <Station Name="黄阁汽车城"></Station>
+    <Station Name="黄阁"></Station>
+    <Station Name="蕉门"></Station>
+    <Station Name="金洲"></Station>
+  </Line>
+
+  <Line Name="五号线" Color="#DA1451">
+    <Station Name="滘口"></Station>
+    <Station Name="坦尾"></Station>
+    <Station Name="中山八"></Station>
+    <Station Name="西场"></Station>
+    <Station Name="西村"></Station>
+    <Station Name="广州火车站" LinkLineName="二号线"></Station>
+    <Station Name="小北"></Station>
+    <Station Name="区庄"></Station>
+    <Station Name="动物园"></Station>
+    <Station Name="杨箕"></Station>
+    <Station Name="五羊邨"></Station>
+    <Station Name="珠江新城" LinkLineName="三号线"></Station>
+    <Station Name="猎德"></Station>
+    <Station Name="潭村"></Station>
+    <Station Name="员村"></Station>
+    <Station Name="科韵路"></Station>
+    <Station Name="车陂南" LinkLineName="四号线"></Station>
+    <Station Name="东圃"></Station>
+    <Station Name="三溪"></Station>
+    <Station Name="鱼珠"></Station>
+    <Station Name="大沙地"></Station>
+    <Station Name="大沙东"></Station>
+    <Station Name="文冲"></Station>
+  </Line>
+
+  <Line Name="六号线" Color="#A200A3">
+    
+  </Line>
+
+  <Line Name="八号线" Color="#0596A7">
+    
+  </Line>
+
+  <Line Name="广佛线" Color="#bbd533">
+    
+  </Line>
+
+  <Line Name="APM线" Color="#06BBE8">
+    <Station Name="林和西" LinkLineName="三号线（北延段）"></Station>
+    <Station Name="体育中心南"></Station>
+    <Station Name="天河南"></Station>
+    <Station Name="黄埔大道"></Station>
+    <Station Name="妇女中心"></Station>
+    <Station Name="花城大道"></Station>
+    <Station Name="大剧院"></Station>
+    <Station Name="海心沙"></Station>
+    <Station Name="广州塔" LinkLineName="三号线"></Station>
   </Line>
 
 </Routes>

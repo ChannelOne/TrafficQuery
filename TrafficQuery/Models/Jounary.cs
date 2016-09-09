@@ -10,7 +10,7 @@ namespace TrafficQuery.Models
 {
     class Jounary : INotifyPropertyChanged
     {
-        public static uint MinutesPreNode = 5;
+        public static uint MinutesPreNode = 3;
         public event PropertyChangedEventHandler PropertyChanged;
 
         private Node start;

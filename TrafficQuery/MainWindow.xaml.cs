@@ -53,10 +53,17 @@ namespace TrafficQuery
                 Node prev = null;
                 Line line = new Line();
                 line.Name = lineElm.Attribute("Name").Value;
+                var lineColor = lineElm.Attribute("Color");
+                if (lineColor != null)
+                {
+                    string str = lineColor.Value;
+                    line.Color = (Color)ColorConverter.ConvertFromString(str);
+                }
+                else
+                    line.Color = Color.FromArgb(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
                 var stations =
                     from el in lineElm.Elements("Station") select el;
 
-                // var lid = Convert.ToUInt32(line.Attribute("ID").Value);
                 uint lid = lineCounter++;
                 line.UID = lid;
 
@@ -65,11 +72,11 @@ namespace TrafficQuery
                     Node node = null;
                     var name = station.Attribute("Name").Value;
 
-                    var linkAttr = station.Attribute("LinkLine");
-                    if (linkAttr != null)
+                    var linkStationName = station.Attribute("LinkLineName");
+                    if (linkStationName != null)
                     {
-                        var linkLineID = Convert.ToUInt32(linkAttr.Value);
-                        node = nodes.Single(n => n.LineIDs.Contains(linkLineID) && n.Name == name);
+                        Line li = this.lines.Single(it => it.Name == linkStationName.Value);
+                        node = nodes.Single(n => n.LineIDs.Contains(li.UID) && n.Name == name);
                     }
                     else
                     {
@@ -104,36 +111,52 @@ namespace TrafficQuery
             string originName = OriginTextBox.Text;
             string destinationName = DestinationTextBox.Text;
 
-            Node origin = nodes.Single(n => n.Name == originName);
-            Node destination = nodes.Single(n => n.Name == destinationName);
+            Node origin = nodes.Find(n => n.Name == originName);
+            Node destination = nodes.Find(n => n.Name == destinationName);
+            
+            if (origin == null || destination == null)
+            {
+                MessageBox.Show("Station not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             var stationList = FindClosestPath(origin.UID, destination.UID);
             var line = nodes[(int)stationList.First.Value].LineIDs;
 
-            var jounaryList = new ObservableCollection<Jounary>();
-            var list = stationList.Reverse().ToList();
-            var j = new Jounary();
-            j.Start = nodes[(int)list[0]];
-            j.Line = lines[(int)j.Start.LineIDs[0]];
+            int linesLen = lines.Count;
 
+            var jounaryList = new ObservableCollection<Jounary>();
+            List<Node> list = new List<Node>();
+            var reverse = stationList.Reverse().ToList();
+
+            foreach (var i in reverse)
+            {
+                list.Add(nodes[(int)i]);
+            }
+
+            var j = new Jounary();
+            j.Start = list[0];
+            j.Line = lines[(int)GuessLineNumber(list, 0)];
 
             for (int i = 0; i < list.Count; ++i)
             {
-                var node = nodes[(int)list[i]];
+                var node = list[i];
 
-                if (i < list.Count - 1 && !nodes[(int)list[i+1]].LineIDs.Contains(j.Line.UID))
+                if (i < list.Count - 1)
                 {
-                    // j.End = nodes[(int)list[i-1]];
-                    j.End = node;
+                    var nextNode = list[i + 1];
+                    j.NodesCount++;
 
-                    jounaryList.Add(j);
+                    if (!nextNode.LineIDs.Contains(j.Line.UID))
+                    {
+                        j.End = node;
+                        jounaryList.Add(j);
 
-                    j = new Jounary();
-                    // j.Start = nodes[(int)list[i-1]];
-                    j.Start = node;
-                    j.Line = lines[(int)nodes[(int)list[i + 1]].LineIDs[0]];
-                    // j.LineNumber = nodes[(int)list[i + 1]].LineIDs[0];
-                    // j.LineNumber = nodes[(int)list[i-1]].LineIDs[0];
+                        j = new Jounary();
+                        j.Start = node;
+                        j.Line = lines[(int)GuessLineNumber(list, i)];
+                    }
+
                 }
                 else if (i == list.Count - 1)
                 {
@@ -142,28 +165,14 @@ namespace TrafficQuery
                 }
             }
 
-            /*
-            for (var i = stationList.First; (i = i.Next) != null;)
-            {
-                if (!nodes[(int)i.Value].LineIDs.Contains(j.LineNumber))
-                {
-                    j.End = nodes[(int)i.Previous.Value];
-
-                    jounaryList.Add(j);
-
-                    j = new Jounary();
-                    j.Start = nodes[(int)i.Previous.Value];
-                    j.LineNumber = nodes[(int)i.Previous.Value].LineIDs[0];
-                }
-                else if (i.Next == null)
-                {
-                    j.End = nodes[(int)i.Previous.Value];
-                    jounaryList.Add(j);
-                }
-            }
-            */
-
             ResultListView.ItemsSource = jounaryList;
+            uint totalTime = 0;
+            foreach(Jounary it in jounaryList)
+            {
+                totalTime += it.Time;
+            }
+
+            TotalNameTextBlock.Text = totalTime.ToString();
         }
 
         private LinkedList<uint> FindClosestPath(uint originID, uint destinationID)
@@ -218,6 +227,42 @@ namespace TrafficQuery
             }
             result.AddLast(originID);
 
+            return result;
+        }
+
+        private uint GuessLineNumber(List<Node> target, int i)
+        {
+            Node currentNode = target[i], nextNode = null;
+            switch(currentNode.LineIDs.Count)
+            {
+                case 0:
+                    throw new IndexOutOfRangeException();
+                case 1:
+                    return currentNode.LineIDs.First();
+                default:
+                    nextNode = target[++i];
+                    var filled = GetFilledList(currentNode.LineIDs, nextNode.LineIDs);
+                    while (filled.Count > 1)
+                    {
+                        currentNode = nextNode;
+                        nextNode = target[i++];
+                        filled = GetFilledList(currentNode.LineIDs, nextNode.LineIDs);
+                    }
+                    return filled[0];
+            }
+        }
+
+        private static List<T> GetFilledList<T>(List<T> a, List<T> b)
+        {
+            var result = new List<T>();
+            foreach (T i in a)
+            {
+                foreach (T j in b)
+                {
+                    if (i.Equals(j))
+                        result.Add(i);
+                }
+            }
             return result;
         }
 
