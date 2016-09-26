@@ -93,6 +93,7 @@
                 <Label Style="{StaticResource tagLabelStyle}" Grid.Column="0" 
                        Content="目的地:"></Label>
                 <TextBox x:Name="DestinationTextBox" Style="{StaticResource inputStyle}" 
+                         KeyDown="DestinationTextBox_KeyDown"
                          Text="{Binding Path=Destination,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"></TextBox>
             </Grid>
 

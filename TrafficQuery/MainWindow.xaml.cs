@@ -107,7 +107,7 @@ namespace TrafficQuery
             return nodes;
        }
 
-        private void Query_Click(object sender, RoutedEventArgs e)
+        private void Query()
         {
             string originName = OriginTextBox.Text;
             string destinationName = DestinationTextBox.Text;
@@ -117,7 +117,7 @@ namespace TrafficQuery
             
             if (origin == null || destination == null)
             {
-                MessageBox.Show("Station not found!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("亲！没有这个站点哦！", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -178,6 +178,7 @@ namespace TrafficQuery
             totalTime += (jounaryList.Count - 1) * Jounary.JounaryChangeTime;
 
             TotalNameTextBlock.Text = (string)new TimeFormator().Convert(totalTime, typeof(string), null, CultureInfo.CurrentCulture);
+
         }
 
         private LinkedList<uint> FindClosestPath(uint originID, uint destinationID)
@@ -271,5 +272,17 @@ namespace TrafficQuery
             return result;
         }
 
+        private void Query_Click(object sender, RoutedEventArgs e)
+        {
+            Query();
+        }
+
+        private void DestinationTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Query();
+            }
+        }
     }
 }
