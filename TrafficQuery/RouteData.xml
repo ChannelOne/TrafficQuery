@@ -128,15 +128,67 @@
   </Line>
 
   <Line Name="六号线" Color="#A200A3">
-    
+    <Station Name="浔峰岗"></Station>
+	<Station Name="横沙"></Station>
+	<Station Name="沙贝"></Station>
+	<Station Name="河沙"></Station>
+	<Station Name="坦尾" LinkLineName="五号线"></Station>
+	<Station Name="如意坊"></Station>
+	<Station Name="长寿路"></Station>
+	<Station Name="黄沙" LinkLineName="一号线"></Station>
+	<Station Name="文化公园"></Station>
+	<Station Name="一德路"></Station>
+	<Station Name="海珠广场" LinkLineName="二号线"></Station>
+	<Station Name="北京路"></Station>
+	<Station Name="团一大广场"></Station>
+	<Station Name="东湖"></Station>
+	<Station Name="东山口" LinkLineName="一号线"></Station>
+	<Station Name="区庄" LinkLineName="五号线"></Station>
+	<Station Name="黄花岗"></Station>
+	<Station Name="沙河顶"></Station>
+	<Station Name="沙河"></Station>
+	<Station Name="天平架"></Station>
+	<Station Name="燕塘" LinkLineName="三号线（北延段）"></Station>
+	<Station Name="天河客运站" LinkLineName="三号线"></Station>
+	<Station Name="长湴"></Station>
   </Line>
 
   <Line Name="八号线" Color="#0596A7">
-    
+    <Station Name="凤凰新村"></Station>
+	<Station Name="沙园"></Station>
+	<Station Name="宝岗大道"></Station>
+	<Station Name="昌岗" LinkLineName="二号线"></Station>
+	<Station Name="晓港"></Station>
+	<Station Name="中大"></Station>
+	<Station Name="鹭江"></Station>
+	<Station Name="客村" LinkLineName="三号线"></Station>
+	<Station Name="赤岗"></Station>
+	<Station Name="磨碟沙"></Station>
+	<Station Name="新港东"></Station>
+	<Station Name="琶洲"></Station>
+	<Station Name="万胜围" LinkLineName="四号线"></Station>
   </Line>
 
   <Line Name="广佛线" Color="#bbd533">
-    
+    <Station Name="魁奇路"></Station>
+	<Station Name="季华园"></Station>
+	<Station Name="同济路"></Station>
+	<Station Name="祖庙"></Station>
+	<Station Name="普君北路"></Station>
+	<Station Name="朝安"></Station>
+	<Station Name="桂城"></Station>
+	<Station Name="南桂路"></Station>
+	<Station Name="礌岗"></Station>
+	<Station Name="千灯湖"></Station>
+	<Station Name="金融高新区"></Station>
+	<Station Name="龙溪"></Station>
+	<Station Name="菊树"></Station>
+	<Station Name="西朗" LinkLineName="一号线"></Station>
+	<Station Name="鹤洞"></Station>
+	<Station Name="沙涌"></Station>
+	<Station Name="沙园" LinkLineName="八号线"></Station>
+	<Station Name="燕岗"></Station>
+	<Station Name="燕岗"></Station>
   </Line>
 
   <Line Name="APM线" Color="#06BBE8">
