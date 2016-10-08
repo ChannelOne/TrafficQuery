@@ -72,6 +72,11 @@ namespace TrafficQuery.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
+
+        public override string ToString()
+        {
+            return name;
+        }
     }
 
 }

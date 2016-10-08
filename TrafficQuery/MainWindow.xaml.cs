@@ -39,6 +39,9 @@ namespace TrafficQuery
 
             DataContext = this;
              nodes = LoadXmlData();
+
+            OriginComboBox.ItemsSource = nodes;
+            DestinationComboBox.ItemsSource = nodes;
         }
 
         private List<Node> LoadXmlData()
@@ -109,8 +112,9 @@ namespace TrafficQuery
 
         private void Query()
         {
-            string originName = OriginTextBox.Text;
-            string destinationName = DestinationTextBox.Text;
+
+            string originName = OriginComboBox.Text;
+            string destinationName = DestinationComboBox.Text;
 
             Node origin = nodes.Find(n => n.Name == originName);
             Node destination = nodes.Find(n => n.Name == destinationName);
@@ -287,9 +291,9 @@ namespace TrafficQuery
 
         private void Exchange_Click(object sender, RoutedEventArgs e)
         {
-            var dest = DestinationTextBox.Text;
-            DestinationTextBox.Text = OriginTextBox.Text;
-            OriginTextBox.Text = dest;
+            var dest = DestinationComboBox.Text;
+            DestinationComboBox.Text = OriginComboBox.Text;
+            OriginComboBox.Text = dest;
         }
     }
 }
