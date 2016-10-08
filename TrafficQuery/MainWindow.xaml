@@ -16,7 +16,7 @@
             <Setter Property="FontSize" Value="18"></Setter>
         </Style>
 
-        <Style x:Key="inputStyle" TargetType="{x:Type TextBox}">
+        <Style x:Key="inputStyle" TargetType="{x:Type ComboBox}">
             <Setter Property="FontSize" Value="18"></Setter>
         </Style>
 
@@ -81,8 +81,12 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Style="{StaticResource tagLabelStyle}" Grid.Column="0" 
                        Text="起点:"/>
+                <!--
                 <TextBox x:Name="OriginTextBox" Style="{StaticResource inputStyle}" 
                          Text="{Binding Path=Origin,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"></TextBox>
+                         -->
+                <ComboBox Grid.Column="1" Style="{StaticResource inputStyle}"
+                          IsEditable="True" x:Name="OriginComboBox"></ComboBox>
             </Grid>
 
             <Button Grid.Column="1"
@@ -96,9 +100,13 @@
 
                 <TextBlock Style="{StaticResource tagLabelStyle}" Grid.Column="0" 
                        Text="目的地:"></TextBlock>
+                <!--
                 <TextBox x:Name="DestinationTextBox" Style="{StaticResource inputStyle}" 
                          KeyDown="DestinationTextBox_KeyDown"
                          Text="{Binding Path=Destination,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"></TextBox>
+                         -->
+                <ComboBox x:Name="DestinationComboBox" Style="{StaticResource inputStyle}" 
+                          IsEditable="True" Grid.Column="1"></ComboBox>
             </Grid>
 
             <Button Grid.Column="3" Style="{StaticResource queryBtnStyle}" 
