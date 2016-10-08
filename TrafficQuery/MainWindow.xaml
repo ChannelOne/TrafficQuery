@@ -12,7 +12,7 @@
             <Setter Property="Margin" Value="0,0,0,10"></Setter>
         </Style>
 
-        <Style x:Key="tagLabelStyle" TargetType="{x:Type Label}">
+        <Style x:Key="tagLabelStyle" TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="18"></Setter>
         </Style>
 
@@ -56,7 +56,7 @@
 
     </Window.Resources>
 
-    <Grid>
+    <Grid Margin="5">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -70,6 +70,7 @@
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
@@ -78,27 +79,30 @@
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label Style="{StaticResource tagLabelStyle}" Grid.Column="0" 
-                       Content="起点:"></Label>
+                <TextBlock Style="{StaticResource tagLabelStyle}" Grid.Column="0" 
+                       Text="起点:"/>
                 <TextBox x:Name="OriginTextBox" Style="{StaticResource inputStyle}" 
                          Text="{Binding Path=Origin,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"></TextBox>
             </Grid>
 
-            <Grid Grid.Column="1">
+            <Button Grid.Column="1"
+                    Content=" &lt;-&gt; " Click="Exchange_Click" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="18.667" FontWeight="Bold"></Button>
+
+            <Grid Grid.Column="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Label Style="{StaticResource tagLabelStyle}" Grid.Column="0" 
-                       Content="目的地:"></Label>
+                <TextBlock Style="{StaticResource tagLabelStyle}" Grid.Column="0" 
+                       Text="目的地:"></TextBlock>
                 <TextBox x:Name="DestinationTextBox" Style="{StaticResource inputStyle}" 
                          KeyDown="DestinationTextBox_KeyDown"
                          Text="{Binding Path=Destination,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"></TextBox>
             </Grid>
 
-            <Button Grid.Column="2" Style="{StaticResource queryBtnStyle}" 
-                    Click="Query_Click" Content="查询">
+            <Button Grid.Column="3" Style="{StaticResource queryBtnStyle}" 
+                    Click="Query_Click" Content="查询" Background="{x:Null}">
             </Button>
 
         </Grid>

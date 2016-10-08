@@ -284,5 +284,12 @@ namespace TrafficQuery
                 Query();
             }
         }
+
+        private void Exchange_Click(object sender, RoutedEventArgs e)
+        {
+            var dest = DestinationTextBox.Text;
+            DestinationTextBox.Text = OriginTextBox.Text;
+            OriginTextBox.Text = dest;
+        }
     }
 }
