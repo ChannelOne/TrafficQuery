@@ -33,26 +33,44 @@ namespace TrafficQuery
             get { return nodes.Count; }
         }
 
+        /// <summary>
+        /// Call the LoadXmlData Function to Load the data
+        /// and load the data to origin and destination ComboBox
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
 
             DataContext = this;
-             nodes = LoadXmlData();
+            nodes = LoadXmlData("RouteData.xml");
 
             OriginComboBox.ItemsSource = nodes;
             DestinationComboBox.ItemsSource = nodes;
         }
 
-        private List<Node> LoadXmlData()
+        /// <summary>
+        /// Load data from fixed file name "RouteData.xml"
+        /// The file must contains many Line elements
+        /// and Line element must contains many Stations.
+        /// 
+        /// Line element have properties:
+        ///     Name
+        ///     Color
+        /// 
+        /// Station element hava properties:
+        ///     Name
+        ///     LinkLineName
+        /// </summary>
+        /// <returns>List of Nodes</returns>
+        private List<Node> LoadXmlData(string filename)
         {
             uint counter = 0, lineCounter = 0;
             var nodes = new List<Node>();
             this.lines = new List<Line>();
-            XElement root = XElement.Load("RouteData.xml");
+            XElement root = XElement.Load(filename);
             var lines =
                 from el in root.Elements("Line") select el;
-            foreach(XElement lineElm in lines)
+            foreach (XElement lineElm in lines)
             {
                 Node prev = null;
                 Line line = new Line();
@@ -71,7 +89,7 @@ namespace TrafficQuery
                 uint lid = lineCounter++;
                 line.UID = lid;
 
-                foreach(XElement station in stations)
+                foreach (XElement station in stations)
                 {
                     Node node = null;
                     var name = station.Attribute("Name").Value;
@@ -108,7 +126,7 @@ namespace TrafficQuery
             }
 
             return nodes;
-       }
+        }
 
         private void Query()
         {
@@ -118,7 +136,7 @@ namespace TrafficQuery
 
             Node origin = nodes.Find(n => n.Name == originName);
             Node destination = nodes.Find(n => n.Name == destinationName);
-            
+
             if (origin == null || destination == null)
             {
                 MessageBox.Show("亲！没有这个站点哦！", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -175,7 +193,7 @@ namespace TrafficQuery
 
             ResultListView.ItemsSource = jounaryList;
             int totalTime = 0;
-            foreach(Jounary it in jounaryList)
+            foreach (Jounary it in jounaryList)
             {
                 totalTime += it.Time;
             }
@@ -202,7 +220,7 @@ namespace TrafficQuery
 
             int pointer = (int)originID;
 
-            for (int i=0; i < len - 1; ++i)
+            for (int i = 0; i < len - 1; ++i)
             {
                 uint min = INF;
 
@@ -216,12 +234,12 @@ namespace TrafficQuery
                 }
                 book[pointer] = true;
 
-                foreach(Arc arc in nodes[pointer].Arcs)
+                foreach (Arc arc in nodes[pointer].Arcs)
                 {
                     if (distance[pointer] + arc.Weight < distance[arc.NodeID])
                     {
                         distance[arc.NodeID] = distance[pointer] + arc.Weight;
-                        path[arc.NodeID] = (uint) pointer;
+                        path[arc.NodeID] = (uint)pointer;
                     }
                 }
 
@@ -243,7 +261,7 @@ namespace TrafficQuery
         private uint GuessLineNumber(List<Node> target, int i)
         {
             Node currentNode = target[i], nextNode = null;
-            switch(currentNode.LineIDs.Count)
+            switch (currentNode.LineIDs.Count)
             {
                 case 0:
                     throw new IndexOutOfRangeException();
